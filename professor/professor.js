@@ -207,7 +207,5 @@ if(Meteor.isServer){
 		}
 
 	});
-	Meteor.publish('professor', function() {
-        return Professor.find({});
-    });
+	
 }

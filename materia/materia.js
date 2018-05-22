@@ -169,9 +169,7 @@ if(Meteor.isServer){
 			Materia.remove({_id:id});
 		}
 	});
-	Meteor.publish('materia', function() {
-        return Materia.find({});
-    });
+	
 
 }
 

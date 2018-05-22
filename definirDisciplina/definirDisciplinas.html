@@ -1,8 +1,21 @@
 <template name="definirDisciplina">
 	{{>menu}}
 	<p></p>
-	{{>buscaSemestre}}
+	{{> cadastro}}
 </template>
+
+<template name="cadastro">
+	<form name="cadastroOfertaMateria">
+	<p>Semestre: {{>buscaSemestre}}</p>
+	<p>Matéria {{> inputAutocomplete settings=settings id="materia" autocomplete="off"}}</p>
+	<p>Area {{> inputAutocomplete settings=settings2 id="area" autocomplete="off"}}</p>
+	<input type="submit" name="cadastrar" id="cadastrar" value="Ofertar" disabled>
+	</form>
+	<div class="tabela">
+		{{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject }}
+		
+	</div>
+</template>	
 
 <template name="buscaSemestre">
 	<select id="semestreSelecionado">
@@ -11,4 +24,12 @@
 			<option value="{{this._id}}">{{anoLetivo}}/{{periodoLetivo}}</option>
 		{{/each}}
 	</select>
+</template>
+
+<template name="materiaAuto">
+	<span>{{nomeMateria}}</span>
+</template>
+
+<template name="areaAuto">
+	<span>{{nome}}</span>
 </template>

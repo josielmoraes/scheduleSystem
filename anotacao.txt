@@ -8,6 +8,9 @@ meteor npm install --save datatables.net-bs4
  meteor npm install --save bcrypt
  meteor add themeteorchef:jquery-validation
  meteor add session
-
-
+meteor add mizzao:autocomplete
+meteor add dburles:collection-helpers retirar
+meteor add meteorhacks:aggregate
  teste de git 
+
+ meteor add ephemer:reactive-datatables

@@ -140,4 +140,5 @@ Meteor.methods({
 		Area.remove({_id:id})
 	}
 })
+
 }
