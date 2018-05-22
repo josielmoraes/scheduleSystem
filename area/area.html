@@ -1,0 +1,17 @@
+<template name="cadastroArea">
+	<p>{{>menu}}</p>
+	<div class="cadastro">
+	<form id="formCadastroArea">
+		<p>Area <input type="text" name="areaNome" id="areaNome"></p>
+		<p>Sigla <input type="text" name="areaSigla" id="areaSigla"></p>
+		<p>
+			<input type="submit" class="input" name="cadastrar" id="cadastrar" value="Cadastrar">
+			<input type="submit" class="input" name="deletar" id="deletar" value="Voltar">
+			<input type="submit" class="input" name="limpar" id="limpar" value="Limpar Campos">
+		</p>
+	</form>
+	</div>
+	<div class="tabela">
+		{{> tabular table=TabularTables.Area }}
+	</div>
+</template>

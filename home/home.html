@@ -1,0 +1,21 @@
+<template name="home">
+	{{>menu}}
+</template>
+
+
+<template name="menu">
+	<div id="menu">
+	<a class="linkMenu" href="{{pathFor route= 'Inicio'}}"> Início</a>
+	<a class="linkMenu" href="{{pathFor route= 'Materia'}}"> Matéria</a>
+	<a class="linkMenu" href="{{pathFor route= 'Professor'}}">Professor</a>
+	<a class="linkMenu" href="{{pathFor route= 'Curso'}}">Curso</a>
+	<a class="linkMenu" href="{{pathFor route= 'Semestre'}}">Semestre</a>
+	<a class="linkMenu" href="{{pathFor route= 'Area'}}">Area</a>
+	<a class="linkMenu" href="{{pathFor route= 'definirDisciplina'}}">Definir Disciplina</a>
+	</div>
+</template>
+
+<template name="login">
+	<p>Usuário: <input type="text" name="nomeUsuario"> Senha: <input type="password" name="senhaUsuario">
+	</p>
+</template>

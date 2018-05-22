@@ -1,0 +1,14 @@
+<template name="definirDisciplina">
+	{{>menu}}
+	<p></p>
+	{{>buscaSemestre}}
+</template>
+
+<template name="buscaSemestre">
+	<select id="semestreSelecionado">
+		<option value=""> Selecione um semestre letivo</option>
+		{{#each buscaTodosSemestres}}
+			<option value="{{this._id}}">{{anoLetivo}}/{{periodoLetivo}}</option>
+		{{/each}}
+	</select>
+</template>

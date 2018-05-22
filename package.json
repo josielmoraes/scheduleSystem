@@ -1,0 +1,13 @@
+{
+  "name": "scheduleSystem",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.42",
+    "bcrypt": "^2.0.1",
+    "datatables.net-bs4": "^1.10.16",
+    "meteor-node-stubs": "^0.3.2"
+  }
+}

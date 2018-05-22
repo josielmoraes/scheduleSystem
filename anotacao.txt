@@ -1,0 +1,10 @@
+Anotações
+
+
+meteor add accounts-ui accounts-password
+> meteor add iron:router
+meteor npm install --save datatables.net-bs4
+ meteor add aldeed:tabular
+ meteor npm install --save bcrypt
+ meteor add themeteorchef:jquery-validation
+ meteor add session

@@ -1,0 +1,18 @@
+<template name ="cadastroCurso">
+	<p>{{>menu}}</p>
+	<div class="cadastro">
+		<form id="formCadrastroCurso" name="formCadrastroCurso">
+			<p class="label" >Nome do curso <input type="text" id="nomeCurso" name="nomeCurso"></p>
+			<p class="label">Sigla do curso <input type="text" id="siglaCurso" name="siglaCurso"></p>
+			<p >
+				<label name="erro"></label>
+			</p>
+			<input class="input" type="submit"  id="cadastrarCurso" value="Cadastrar">
+			<input class="input" type="submit"  id="deletarCurso" value="Voltar">
+			<input type="submit" class="input" name="limpar" id="limpar" value="Limpar Campos">
+		</form>
+	</div>
+	<div class="tabela">
+		{{> tabular table=TabularTables.Curso class="table table-striped table-bordered table-condensed"}}
+	</div>
+</template>
