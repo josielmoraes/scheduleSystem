@@ -89,6 +89,11 @@ function validarDeletar(id){
 		}
 		
 	}
+Template.cadastroSemestre.helpers({
+	'currentUser':function(){
+					return true;
+	}
+})
 Template.cadastroSemestre.events({
 	'click .input':function(event){
 		event.preventDefault();

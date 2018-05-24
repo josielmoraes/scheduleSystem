@@ -1,29 +1,33 @@
 <template name="definirDisciplina">
 	{{>menu}}
 	<p></p>
-	{{> cadastro}}
+	{{> cadastroOfertaDisciplina}}
 </template>
 
 <template name="cadastroOfertaDisciplina">
 	<div class="cadastro">
+		<p>Número Processo: {{>buscaProcesso}}</p>
+		{{#if mostrar}}
 		<form name="cadastroOfertaMateria">
-			<p>Semestre: {{>buscaSemestre}}</p>
 			<p>Matéria {{> inputAutocomplete settings=settings id="materia" autocomplete="off"}}</p>
 			<p>Area {{> inputAutocomplete settings=settings2 id="area" autocomplete="off"}}</p>
-			<input type="submit" name="cadastrar" id="cadastrar" value="Ofertar" disabled>
+			<input type="submit" name="cadastrar" id="cadastrar" value="Ofertar">
 		</form>
+		{{/if}}
 	</div>
+	{{#if mostrar}}
 	<div class="tabela">
-		{{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject }}
+		{{> tabular table=TabularTables.Oferta selector=select class="table table-striped table-bordered table-condensed"}}
 		
 	</div>
-
+		{{/if}}
 </template>	
 
-<template name="buscaSemestre">
-	<select id="semestreSelecionado">
-		{{#each buscaTodosSemestres}}
-			<option value="{{this._id}}">{{anoLetivo}}/{{periodoLetivo}}</option>
+<template name="buscaProcesso">
+	<select id="processoSelecionado">
+		<option value=""></option>
+		{{#each buscaTodosProcessos}}
+			<option value="{{this._id}}">{{numeroProcesso}}</option>
 		{{/each}}
 	</select>
 </template>

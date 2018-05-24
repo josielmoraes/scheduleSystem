@@ -64,6 +64,20 @@ function validarDeletar(id){
 		}
 		
 	}
+	Template.cadastroProfessor.helpers({
+		'currentUser':function(){
+				return true;
+			},
+		campos(){
+			$('#nomeProfessor').val("");
+			$('#lotacaoProfessor').val("");
+			$('#formacaoProfessor').val("");
+			$('#emailProfessor').val("");
+			$('#telefoneProfessor').val("");
+			$('#Cadastrar').val("Cadastrar");
+			$('#Deletar').val("Voltar");	
+		}
+	})
 	Template.cadastroProfessor.events({
 		
 		'click .input': function(event){
@@ -83,11 +97,11 @@ function validarDeletar(id){
 				var validar=$( '#formCadastroProfessor' ).valid();
 				if(evento=="Cadastrar" && validar==true){
 					Meteor.call('cadastrarProfessor',dadosProfessor);
-					campos();
+					Template.cadastroProfessor.__helpers.get('campos').call();
 				}else if(evento=="Atualizar" && validar==true){
 					var prof=Session.get("professor")
 					Meteor.call('atualizarProfessor',prof._id, dadosProfessor);
-					campos();
+					Template.cadastroProfessor.__helpers.get('campos').call();
 				}
 				
 			}else if( id=="Deletar"){
@@ -98,11 +112,11 @@ function validarDeletar(id){
 					var prof=Session.get("professor");
 					if(validarDeletar(prof._id)){
 						Meteor.call('deletarProfessor',prof._id);
-						campos();
+						Template.cadastroProfessor.__helpers.get('campos').call();
 					}
 				}
 			}else if(id=="limpar"){
-				campos();
+				Template.cadastroProfessor.__helpers.get('campos').call();
 			}
 					
 			

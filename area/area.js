@@ -43,6 +43,11 @@ if(Meteor.isClient){
 		$('#cadastrar').val("Cadastrar");
 		 $('#deletar').val("Voltar");
 	}
+	Template.cadastroArea.helpers({
+		'currentUser':function(){
+				return false;
+			}
+	})
 	Template.cadastroArea.events({
 		'click .input':function(event){
 		event.preventDefault();

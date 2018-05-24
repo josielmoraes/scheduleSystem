@@ -2,7 +2,7 @@ Anotações
 
 
 meteor add accounts-ui accounts-password
-> meteor add iron:router
+meteor add iron:router
 meteor npm install --save datatables.net-bs4
  meteor add aldeed:tabular
  meteor npm install --save bcrypt
@@ -13,5 +13,12 @@ meteor add dburles:collection-helpers retirar
 meteor add meteorhacks:aggregate
  teste de git 
 
- meteor add ephemer:reactive-datatables
- meteor add reactive-var
+meteor add reactive-var
+
+meteor add dburles:collection-helpers
+
+
+
+
+
+ meteor remove autopublish

@@ -3,7 +3,7 @@ import Tabular from 'meteor/aldeed:tabular';
 import { $ } from 'meteor/jquery';
 import dataTablesBootstrap from 'datatables.net-bs4';
 import SubMateria from '../imports/collections/submateria'
-
+import OfertaMateria from "../imports/collections/ofertaMateria";
 
 Router.route('/Materia',{
 	template: 'cadastroMateria'
@@ -45,66 +45,122 @@ new Tabular.Table({
  })
 
 if(Meteor.isClient){
-	$('input').attr('autocomplete','off');
-	const trigger = new ReactiveVar(false);
-	const idMateria = new ReactiveVar();
-	function campos(){
-		$('#codMateria').val("");
-		$('#nomeMateria').val("");
-		$('#cargaHorariaMateria').val("");
-		$('#aulaSemanal').val("");
-		$('#divisao').val(0);
-		trigger.set(false);
-		$('#Cadastrar').val("Cadastrar");
-	    $('#Deletar').val("Voltar");
-	    $('#formCadastroMateria').validate().resetForm();
-	}
-	function validarCodigo(cod){
-		//futuro fazer validação de exclusao
-		console.log(cod);
-		var materiaCodigo= Materia.find({codMateria:cod}).fetch();
-		if(materiaCodigo.length>0){
-			$('#formCadastroMateria').validate().showErrors({
-				codMateria:"Código cadastrado"
-			})
-			return false
-		}else{
-			return true;
-		}
-		
-	}
-	function teste(){
-		trigger.set(true);
-	}
-	function setarSubmateriasCadastrar(cod){
-		var materias;
-		var mat=[];
-		var sub;
-		var carga;
-		var aula;
-		console.log("Entrou");
-		var a=$('#divisao').val();
-		for(x=1;x<=a;x++){
-			sub='#subNome'+x;
-			carga='#cargaHoraria'+x;
-			aula='#aulasSemanal'+x;
-			console.log(sub+" "+carga+" "+aula);
-			mat[x-1]={
-				codMateria:cod,
-				subNome:$(sub).val(),
-				cargaHoraria:$(carga).val(),
-				aulasSemanal:$(aula).val(),
-				ordem:x
-			}
-		}
-		for(x=0;x<mat.length;x++){
-			console.log(mat[x]);
-			Meteor.call('cadastrarSubMateria',mat[x]);
-		}
-		
-	}
-	Template.cadastroMateria.onCreated(function(){
+	
+	
+	
+	
 
+	Template.cadastroMateria.helpers({
+		'habilitarSubMateria': function(){
+			var evento= $('#Cadastrar').val();
+			console.log("Habilitar sub materia");
+			var index=$('#divisao').val()
+				var array= new Array(index);
+				for(x=0;x<index;x++){
+					array[x]=x+1;
+					console.log("ind "+index+" ar "+array[x]);
+				}	
+			if(evento=="Cadastrar"){
+				return array;
+			}else if(evento=="Atualizar"){
+				
+				return array;
+			}
+
+		},
+		'condicional':function(){
+			return Template.instance().variavelReac.get();
+		},
+		'preencher':function(){
+			var rowData=Session.get('materia');
+			    var sub;
+				var carga;
+				var aula;
+				var result=SubMateria.find({codMateria:rowData.codMateria},{sort:{ordem:1}}).fetch();
+				//const result=Meteor.subscribe('subMateriaBuscaCodigo',rowData.codMateria);
+				console.log(result);
+			    for(x=0;x<result.length;x++){
+					sub='#subNome'+result[x].ordem;
+					carga='#cargaHoraria'+result[x].ordem;
+					aula='#aulasSemanal'+result[x].ordem;
+					console.log(sub+" "+carga+" "+aula);
+					console.log(result[x].subNome+" "+result[x].cargaHoraria+" "+result[x].aulasSemanal)
+					$(sub).val(result[x].subNome);
+					$(carga).val(result[x].cargaHoraria);
+					$(aula).val(result[x].aulasSemanal);
+				}
+			},
+		'setarSubmateriasCadastrar':function(){
+			var materias;
+			var mat=[];
+			var sub;
+			var carga;
+			var aula;
+			console.log("Entrou");
+			var cod=Session.get('codMateria');
+			var a=$('#divisao').val();
+			for(x=1;x<=a;x++){
+				sub='#subNome'+x;
+				carga='#cargaHoraria'+x;
+				aula='#aulasSemanal'+x;
+				console.log(sub+" "+carga+" "+aula);
+				mat[x-1]={
+					codMateria:cod,
+					subNome:$(sub).val(),
+					cargaHoraria:$(carga).val(),
+					aulasSemanal:$(aula).val(),
+					ordem:x
+				}
+			}
+			for(x=0;x<mat.length;x++){
+				console.log(mat[x]);
+				Meteor.call('cadastrarSubMateria',mat[x]);
+			}
+		},
+		'campos':function (){
+			$('#codMateria').val("");
+			$('#nomeMateria').val("");
+			$('#cargaHorariaMateria').val("");
+			$('#aulaSemanal').val("");
+			$('#divisao').val(0);
+			Template.instance().variavelReac.set(false);
+			$('#Cadastrar').val("Cadastrar");
+		    $('#Deletar').val("Voltar");
+		    $('#formCadastroMateria').validate().resetForm();
+		    $('#erro').val("");
+		},
+		'currentUser':function(){
+			return true;
+		},
+		validarDeletar:function(){
+			var id=Session.get('materia');
+			var a= OfertaMateria.find({Materia:id._id}).fetch();
+			var sair;
+			var v="";
+			 $('#erro').val("");
+			if(a.length>0){
+				v="Matéria em oferta ";
+				sair= false;
+			}else{
+				sair= true;
+			}
+			if(id.dividirMateria!=0){
+				var sair2=false
+
+				v+="Matéria com divisão"
+			}else{
+				sair2=true;
+			}
+			$('#formCadastroMateria').validate().showErrors({
+					erro:v
+			})
+			return (sair && sair2)
+		}
+
+	})
+
+	Template.cadastroMateria.onCreated(function(){
+		Template.instance().variavelReac= new ReactiveVar(false);
 	})
 
 	
@@ -126,12 +182,12 @@ if(Meteor.isClient){
 				var evento=  $('#Cadastrar').val();
 				if(evento=="Cadastrar" && validar==true){
 					Meteor.call('cadastrarMateria',dadosMateria);
-					setarSubmateriasCadastrar(dadosMateria.codMateria);
-					campos()
+					Session.set('codMateria',dadosMateria.codMateria)
+					Template.cadastroMateria.__helpers.get('campos').call();
 				}else if(evento=="Atualizar" && validar==true){
 					var id= Session.get('materia');
 					Meteor.call('atualizarMateria',id._id,dadosMateria);
-					campos();
+					Template.cadastroMateria.__helpers.get('campos').call();
 				}
 			}else if(id=="Deletar"){
 				var evento=  $('#Deletar').val();
@@ -142,11 +198,13 @@ if(Meteor.isClient){
 					Router.go('/');
 				}else if(evento=="Deletar"){
 					var id= Session.get('materia');
-					Meteor.call('deletarMateria',id._id);
-					campos();
+					if(Template.cadastroMateria.__helpers.get('validarDeletar').call()){
+						//Meteor.call('deletarMateria',id._id);
+						Template.cadastroMateria.__helpers.get('campos').call();
+					}
 				}
 			}else if(id=="limpar"){
-				campos();
+				Template.cadastroMateria.__helpers.get('campos').call();
 			}
 			
 		},
@@ -161,35 +219,21 @@ if(Meteor.isClient){
 		    $('#divisao').val(rowData.dividirMateria);
 		    $('#Cadastrar').val("Atualizar");
 		    $('#Deletar').val("Deletar")
-		    Session.set('materia',rowData);
-		    var sub;;
-			var carga;
-			var aula;
-			var result=SubMateria.find({codMateria:rowData.codMateria},{sort:{ordem:1}}).fetch();
-			//const result=Meteor.subscribe('subMateriaBuscaCodigo',rowData.codMateria);
-			console.log(result);
+		    Session.set('materia',rowData)
+			//Template.instance().variavelReac.set(true);
 			
-		    for(x=0;x<result.length;x++){
-				sub='#subNome'+result[x].ordem;
-				carga='#cargaHoraria'+result[x].ordem;
-				aula='#aulasSemanal'+result[x].ordem;
-				$(sub).val(result[x].subNome);
-				$(carga).val(result[x].cargaHoraria);
-				$(aula).val(result[x].aulasSemanal);
-			}
-			//teste();
-			Template.subMateria.__helpers.get('habilitarSubMateria').call();
-			console.log(trigger.get());
+
 		  },
+
 		  'change #divisao':function(event){
 		  	console.log("change combo")
 		  	var b=$(event.target ).val();
 		  	if(b==0){
 		  		//trigger.set(false);
-		  		Session.set('t',false);
+		  		Template.instance().variavelReac.set(false);
 		  	}else{
 		  		//trigger.set(true);
-		  		Session.set('t',true);
+		  		Template.instance().variavelReac.set(true);
 		  	}
 		  },
 
@@ -197,6 +241,7 @@ if(Meteor.isClient){
 	});
 	
 	Template.cadastroMateria.onRendered(function(){
+		console.log('entrou')
 			$('#formCadastroMateria').validate({
 				rules:{
 					codMateria:{
@@ -328,50 +373,10 @@ if(Meteor.isClient){
 					},
 				}
 			});
-			Template.subMateria.__helpers.get('habilitarSubMateria').call();
-	});
-	Template.subMateria.onCreated(function(){
-		//trigger.set(false);
-		//console.log(trigger.get());
-		Session.set('t',false);
-		console.log('Created '+Session.get('t'));
-	})
-	Template.subMateria.onRendered(function(){
-		var a=$('#divisao').val()
-		if(a!=0){
-			Session.set('t',false);
-			console.log('Renderer '+Session.get('t'));
-		}
-	})
 
-	Template.subMateria.helpers({
-		'habilitarSubMateria': function(){
-			var evento= $('#Cadastrar').val();
-			console.log(evento);
-			if(evento=="Cadastrar"){
-				var index=$('#divisao').val()
-				var array= new Array(index);
-				for(x=0;x<index;x++){
-					array[x]=x+1;
-					console.log("ind "+index+" ar "+array[x]);
-				}
-				
-				return array;
-			}
-
-		},
-		'condicional':function(){
-			//console.log(trigger.get());
-			//return trigger.get();
-			console.log('condicional '+Session.get('t'));
-			return Session.get('t');
-		},
-		'aux':function(){
-			//Session.set('t',false);
-			console.log('aux '+Session.get('t'));
-		},
-		
 	});
+	
+
 
 };
 

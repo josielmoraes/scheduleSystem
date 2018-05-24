@@ -3,31 +3,43 @@
 <template name="cadastroMateria">
 	<p>{{>menu}}</p>
 	<div id="scroll">
-		<div class="cadastro">
-			<form id="formCadastroMateria" name="formCadastroMateria">
-				<p>Código da Matéria <input type="text" id="codMateria" name="codMateria" ></p>
-				<p>Nome da Matéria <input type="text" id="nomeMateria" name="nomeMateria" ></p>
-				<p>Carga horária <input type="text" id="cargaHorariaMateria" name="cargaHorariaMateria" ></p>
-				<p>Aulas semanal <input type="text" id="aulaSemanal" name="aulaSemanal" > </p>
-				<p>
-					Quantidade de submatéria
-					<select name="divisao" id="divisao">
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select>
-				</p>
-				{{>subMateria}}
-				<p>
-					<label name="erro"></label>
-				</p>
-				<input type="submit" class="input" id="Cadastrar" value="Cadastrar">
-				<input type="submit" class="input" id="Deletar" value="Voltar">
-				<input type="submit" class="input" name="limpar" id="limpar" value="Limpar Campos">
-			</form>
-		</div>
+			{{#if currentUser}}
+			<div class="cadastro">
+				<form id="formCadastroMateria" name="formCadastroMateria">
+					<p>Código da Matéria <input type="text" id="codMateria" name="codMateria" ></p>
+					<p>Nome da Matéria <input type="text" id="nomeMateria" name="nomeMateria" ></p>
+					<p>Carga horária <input type="text" id="cargaHorariaMateria" name="cargaHorariaMateria" ></p>
+					<p>Aulas semanal <input type="text" id="aulaSemanal" name="aulaSemanal" > </p>
+					<p>
+						Quantidade de submatéria
+						<select name="divisao" id="divisao" disabled>
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+					</p>
+					
+					{{#if condicional}}
+						{{#each sub in habilitarSubMateria}}
+						
+								<p>Sub-Matéria {{sub}}</p>
+								<p> Nome <input type="text" id="subNome{{sub}}" name="subNome{{sub}}" ></p>
+								<p>Carga horária <input type="text" id="cargaHoraria{{sub}}" name="cargaHoraria{{sub}}" ></p>
+								<p>Aulas semanal <input type="text" id="aulasSemanal{{sub}}" name="aulasSemanal{{sub}}" > </p>
+						{{/each}}
+					{{/if}}
+					
+					<p>
+						<label name="erro" id="erro"></label>
+					</p>
+					<input type="submit" class="input" id="Cadastrar" value="Cadastrar">
+					<input type="submit" class="input" id="Deletar" value="Voltar">
+					<input type="submit" class="input" name="limpar" id="limpar" value="Limpar Campos">
+				</form>
+			</div>
+			{{/if}}
 		<div class="tabela">
 			{{> tabular table=TabularTables.Materia selector=selector  class="table table-striped table-bordered table-condensed"}}
 		</div>

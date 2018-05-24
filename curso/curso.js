@@ -13,7 +13,7 @@ new Tabular.Table({
     {data: "nome", title: "Curso"},
     {data: "sigla", title: "Sigla"},
     ],
-    tmpl: Meteor.isClient && Template.bookCheckOutCell,
+
    responsive: true,
 	autoWidth: false,
 	language:{
@@ -58,6 +58,17 @@ if(Meteor.isClient){
 		}
 		
 	}
+	Template.cadastroCurso.helpers({
+		'currentUser':function(){
+				return true;
+			},
+		 campos(){
+			$('#nomeCurso').val("");
+			$('#siglaCurso').val("");
+			$('#cadastrarCurso').val("Cadastrar");
+			$('#deletarCurso').val("Voltar")
+		}
+	})
 	Template.cadastroCurso.events({
 		'click .input':function(event){
 			event.preventDefault();
@@ -73,11 +84,11 @@ if(Meteor.isClient){
 				console.log(dadosCurso.sigla);
 				if(evento=="Cadastrar" && validar){
 					Meteor.call('criarCurso', dadosCurso);
-					campos()
+					Template.cadastroCurso.__helpers.get('campos').call();
 				}else if(evento=="Atualizar" && validar){
 					var curso=Session.get("curso");
 					Meteor.call('atualizarCurso',curso._id,dadosCurso);
-					campos();
+					Template.cadastroCurso.__helpers.get('campos').call();
 				}
 			}else if(id=="deletarCurso"){
 				var deletar= $('#deletarCurso').val();
@@ -87,12 +98,12 @@ if(Meteor.isClient){
 					var idCurso=Session.get("curso");
 					if(validarDeletar(idCurso._id)){
 						Meteor.call('deletarCurso',idCurso._id);
-						campos();
+						Template.cadastroCurso.__helpers.get('campos').call();
 					}
 				}
 
 			}else if(id=="limpar"){
-				campos();
+				Template.cadastroCurso.__helpers.get('campos').call();	
 			}
 			
 			

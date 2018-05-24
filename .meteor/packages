@@ -28,7 +28,6 @@ session
 mizzao:autocomplete
 dburles:collection-helpers
 sakulstra:aggregate
-ephemer:reactive-datatables
-autopublish
 mizzao:timesync
 promise
+autopublish
