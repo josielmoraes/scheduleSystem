@@ -14,3 +14,4 @@ meteor add meteorhacks:aggregate
  teste de git 
 
  meteor add ephemer:reactive-datatables
+ meteor add reactive-var

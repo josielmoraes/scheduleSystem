@@ -36,7 +36,9 @@ body{
 #busca{
 	margin-left: 15%;
 }
-
+#scroll {
+   overflow: auto;
+}
 
 
 

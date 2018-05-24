@@ -43,12 +43,9 @@ new Tabular.Table({
 
 
 if(Meteor.isClient){
-	Template.cadastro.onRendered(function(){
+	
 
-		
-	})
-
-	Template.cadastro.helpers({
+	Template.cadastroOfertaDisciplina.helpers({
 		
 		 settings: function() {
 		    return {
@@ -143,7 +140,7 @@ if(Meteor.isClient){
 				}
 		}
 	})
-	Template.cadastro.events({
+	Template.cadastroOfertaDisciplina.events({
 		'submit form':function(event){
 			event.preventDefault();
 			console.log("entrou");

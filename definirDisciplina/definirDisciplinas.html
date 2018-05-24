@@ -4,22 +4,24 @@
 	{{> cadastro}}
 </template>
 
-<template name="cadastro">
-	<form name="cadastroOfertaMateria">
-	<p>Semestre: {{>buscaSemestre}}</p>
-	<p>Matéria {{> inputAutocomplete settings=settings id="materia" autocomplete="off"}}</p>
-	<p>Area {{> inputAutocomplete settings=settings2 id="area" autocomplete="off"}}</p>
-	<input type="submit" name="cadastrar" id="cadastrar" value="Ofertar" disabled>
-	</form>
+<template name="cadastroOfertaDisciplina">
+	<div class="cadastro">
+		<form name="cadastroOfertaMateria">
+			<p>Semestre: {{>buscaSemestre}}</p>
+			<p>Matéria {{> inputAutocomplete settings=settings id="materia" autocomplete="off"}}</p>
+			<p>Area {{> inputAutocomplete settings=settings2 id="area" autocomplete="off"}}</p>
+			<input type="submit" name="cadastrar" id="cadastrar" value="Ofertar" disabled>
+		</form>
+	</div>
 	<div class="tabela">
 		{{> ReactiveDatatable tableData=reactiveDataFunction options=optionsObject }}
 		
 	</div>
+
 </template>	
 
 <template name="buscaSemestre">
 	<select id="semestreSelecionado">
-		<option value=""> Selecione um semestre letivo</option>
 		{{#each buscaTodosSemestres}}
 			<option value="{{this._id}}">{{anoLetivo}}/{{periodoLetivo}}</option>
 		{{/each}}

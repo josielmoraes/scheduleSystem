@@ -151,5 +151,5 @@ if(Meteor.isServer){
 		'deletarCurso':function(idDeletar){
 			Curso.remove({_id:idDeletar})
 		}
-	})
+	});
 }
