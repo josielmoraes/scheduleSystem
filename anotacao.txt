@@ -19,6 +19,8 @@ meteor add dburles:collection-helpers
 
 
 
-
+npm install --save datatables.net-buttons datatables.net-buttons-bs
 
  meteor remove autopublish
+
+ meteor add tracker

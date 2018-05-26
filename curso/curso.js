@@ -40,12 +40,6 @@ new Tabular.Table({
 
 if(Meteor.isClient){
 	
-	function campos(){
-		$('#nomeCurso').val("");
-		$('#siglaCurso').val("");
-		$('#cadastrarCurso').val("Cadastrar");
-		$('#deletarCurso').val("Voltar")
-	}
 	function validarDeletar(id){
 		var horarioSemanal= HorarioSemanal.find({idCurso:id}).fetch();
 		if(horarioSemanal.length>0){
@@ -59,15 +53,17 @@ if(Meteor.isClient){
 		
 	}
 	Template.cadastroCurso.helpers({
-		'currentUser':function(){
-				return true;
-			},
+		
 		 campos(){
 			$('#nomeCurso').val("");
 			$('#siglaCurso').val("");
 			$('#cadastrarCurso').val("Cadastrar");
 			$('#deletarCurso').val("Voltar")
-		}
+		},
+		'permissao':function(valor){
+			if(valor==0)
+				return true;
+		},
 	})
 	Template.cadastroCurso.events({
 		'click .input':function(event){

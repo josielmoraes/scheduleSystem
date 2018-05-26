@@ -96,7 +96,6 @@ if(Meteor.isClient){
 			var sub;
 			var carga;
 			var aula;
-			console.log("Entrou");
 			var cod=Session.get('codMateria');
 			var a=$('#divisao').val();
 			for(x=1;x<=a;x++){
@@ -129,8 +128,10 @@ if(Meteor.isClient){
 		    $('#formCadastroMateria').validate().resetForm();
 		    $('#erro').val("");
 		},
-		'currentUser':function(){
-			return true;
+		
+		'permissao':function(valor){
+			if(valor==0)
+				return true;
 		},
 		validarDeletar:function(){
 			var id=Session.get('materia');
@@ -144,17 +145,51 @@ if(Meteor.isClient){
 			}else{
 				sair= true;
 			}
-			if(id.dividirMateria!=0){
-				var sair2=false
-
-				v+="Matéria com divisão"
-			}else{
-				sair2=true;
-			}
 			$('#formCadastroMateria').validate().showErrors({
 					erro:v
 			})
 			return (sair && sair2)
+		},
+		validarCodigoAtualizar:function(){
+			var c;
+			var a;
+			var cod=Session.get('materia');
+			console.log('cod anti '+cod.codMateria);
+			console.log('cod novo '+$('#codMateria').val());
+			if(cod==$('#codMateria').val()){
+				console.log("codAtualizar");
+				return true;
+			}else{
+				cod=$('#codMateria').val();
+				console.log(cod);
+				a=Materia.find({codMateria:cod}).fetch();
+				if(a.length>0){
+					$('#formCadastroMateria').validate().showErrors({
+					erro:"Código cadastrado"
+					})
+
+					return false;
+				}else{
+					$('#formCadastroMateria').valid()
+					return true;
+				}
+			}
+
+		},
+		validarCodigoCadastro:function(){
+			var cod=$('#codMateria').val();
+			console.log(cod);
+			var a=Materia.find({codMateria:cod}).fetch();
+				if(a.length>0){
+					$('#formCadastroMateria').validate().showErrors({
+					erro:"Código cadastrado"
+					})
+					return false;
+				}else{
+					console.log("true");
+					return true;
+				}
+
 		}
 
 	})
@@ -176,18 +211,21 @@ if(Meteor.isClient){
 				    aulaSemanal:$('#aulaSemanal').val(),
 				    dividirMateria:$('#divisao').val()
 				}
-				//var validar=true;
+				Session.set('codMateria',dadosMateria.codMateria);
 				var validar=$('#formCadastroMateria').valid();
-				validar=validarCodigo(dadosMateria.codMateria);
+
 				var evento=  $('#Cadastrar').val();
 				if(evento=="Cadastrar" && validar==true){
-					Meteor.call('cadastrarMateria',dadosMateria);
-					Session.set('codMateria',dadosMateria.codMateria)
-					Template.cadastroMateria.__helpers.get('campos').call();
+					if(Template.cadastroMateria.__helpers.get('validarCodigoCadastro').call()){
+						Meteor.call('cadastrarMateria',dadosMateria);
+						Template.cadastroMateria.__helpers.get('campos').call();
+					}
 				}else if(evento=="Atualizar" && validar==true){
-					var id= Session.get('materia');
-					Meteor.call('atualizarMateria',id._id,dadosMateria);
-					Template.cadastroMateria.__helpers.get('campos').call();
+					if(Template.cadastroMateria.__helpers.get('validarCodigoAtualizar').call()){
+						var id= Session.get('materia');
+						//Meteor.call('atualizarMateria',id._id,dadosMateria);
+						Template.cadastroMateria.__helpers.get('campos').call();
+					}
 				}
 			}else if(id=="Deletar"){
 				var evento=  $('#Deletar').val();
@@ -199,7 +237,7 @@ if(Meteor.isClient){
 				}else if(evento=="Deletar"){
 					var id= Session.get('materia');
 					if(Template.cadastroMateria.__helpers.get('validarDeletar').call()){
-						//Meteor.call('deletarMateria',id._id);
+						Meteor.call('deletarMateria',id._id);
 						Template.cadastroMateria.__helpers.get('campos').call();
 					}
 				}
@@ -226,7 +264,6 @@ if(Meteor.isClient){
 		  },
 
 		  'change #divisao':function(event){
-		  	console.log("change combo")
 		  	var b=$(event.target ).val();
 		  	if(b==0){
 		  		//trigger.set(false);
@@ -241,7 +278,6 @@ if(Meteor.isClient){
 	});
 	
 	Template.cadastroMateria.onRendered(function(){
-		console.log('entrou')
 			$('#formCadastroMateria').validate({
 				rules:{
 					codMateria:{
@@ -407,7 +443,8 @@ if(Meteor.isServer){
 			Materia.update({_id:id},{
 				nomeMateria: dadosMateria.nomeMateria,
 				cargaHoraria: dadosMateria.cargaHoraria,
-				aulaSemanal:dadosMateria.aulaSemanal
+				aulaSemanal:dadosMateria.aulaSemanal,
+				codMateria:dadosMateria.codMateria,
 			});
 		},
 		'deletarMateria': function(id){

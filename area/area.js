@@ -37,16 +37,19 @@ new Tabular.Table({
 
 if(Meteor.isClient){
 
-	function campos(){
-		$('#areaNome').val("");
-		$('#areaSigla').val("");
-		$('#cadastrar').val("Cadastrar");
-		 $('#deletar').val("Voltar");
-	}
 	Template.cadastroArea.helpers({
-		'currentUser':function(){
-				return false;
-			}
+		'permissao':function(valor){
+			if(valor==0)
+				return true;
+		},
+		campos:function(){
+			$('#areaNome').val("");
+			$('#areaSigla').val("");
+			$('#cadastrar').val("Cadastrar");
+			 $('#deletar').val("Voltar");
+			 $('#formCadastroArea').validate().resetForm();
+		}
+
 	})
 	Template.cadastroArea.events({
 		'click .input':function(event){
@@ -60,17 +63,17 @@ if(Meteor.isClient){
 			}
 			console.log(dadosArea)
 			var cadastrar=$('#cadastrar').val();
-			validar=$('#formCadastroArea').valid();
+			var validar=$('#formCadastroArea').valid();
 			console.log(validar);
 			if(cadastrar=="Cadastrar" && validar){
-				console.log("entrou");
+				Template.cadastroArea.__helpers.get('campos').call();
 				Meteor.call('cadastrarArea',dadosArea);
 			}else if(cadastrar=="Atualizar" && validar) {
 				var aux= Session.get("area");
 				Meteor.call('atualizarArea',aux._id,dadosArea);
 			}
 			if(validar){
-				campos();
+				Template.cadastroArea.__helpers.get('campos').call();
 			}
 		}else if(id=="deletar"){
 			var deletar=$('#deletar').val();
@@ -79,10 +82,10 @@ if(Meteor.isClient){
 			}else if(deletar=="Deletar"){
 				var aux= Session.get("area");
 				Meteor.call('deletarArea',aux._id);
-				campos();
+				Template.cadastroArea.__helpers.get('campos').call();
 			}
 		}else if(id=="limpar"){
-			campos();
+			Template.cadastroArea.__helpers.get('campos').call();
 		}
 	},
 	'click tbody > tr': function (event,template) {

@@ -43,15 +43,6 @@ new Tabular.Table({
 
 if(Meteor.isClient){
 
-function campos(){
-	$('#nomeProfessor').val("");
-	$('#lotacaoProfessor').val("");
-	$('#formacaoProfessor').val("");
-	$('#emailProfessor').val("");
-	$('#telefoneProfessor').val("");
-	$('#Cadastrar').val("Cadastrar");
-	$('#Deletar').val("Voltar");	
-}
 function validarDeletar(id){
 		var horarioSemanal= HorarioSemanal.find({idProfessor:id}).fetch();
 		if(horarioSemanal.length>0){
@@ -65,9 +56,6 @@ function validarDeletar(id){
 		
 	}
 	Template.cadastroProfessor.helpers({
-		'currentUser':function(){
-				return true;
-			},
 		campos(){
 			$('#nomeProfessor').val("");
 			$('#lotacaoProfessor').val("");
@@ -76,7 +64,13 @@ function validarDeletar(id){
 			$('#telefoneProfessor').val("");
 			$('#Cadastrar').val("Cadastrar");
 			$('#Deletar').val("Voltar");	
-		}
+		},
+		'permissao':function(valor){
+			console.log(valor);
+			if(valor==0)
+				return true
+			
+		},
 	})
 	Template.cadastroProfessor.events({
 		

@@ -90,9 +90,10 @@ function validarDeletar(id){
 		
 	}
 Template.cadastroSemestre.helpers({
-	'currentUser':function(){
-					return true;
-	}
+	'permissao':function(valor){
+			if(valor==0)
+				return true;
+		},
 })
 Template.cadastroSemestre.events({
 	'click .input':function(event){

@@ -1,54 +1,46 @@
+Router.route('/Usuario',{
+	template:'usuario'
+})
 
-
-Meteor.startup(() => {
 if(Meteor.isClient){
-	$('input').attr('autocomplete','off');
-	console.log("inicio");
-	Meteor.loginWithPassword('root','root123', function(e,r){
-		if(e){
-			console.log(e);
-		}else{
-			console.log(r);
-			console.log('teste')
+	
+
+	Template.cadastroUsuario.helpers({
+		'logado':function(l){
+			Session.set('user',l)
 		}
 	})
+
+	Template.cadastroUsuario.events({
+		'submit form':function(event){
+			console.log(Session.get('user'))
+			Meteor.call('sendConfirmation', Session.get('user'));
+		}
+	})
+
 }
 
 if(Meteor.isServer){
-	//Meteor.users.remove("dybL6cvvwNpTNtPNM");
-	var r={
-		username:'root',
-		permission:'0',
-		email:'root@root.com.br',
-		password:'root123',
-	}
-	if(!Meteor.users.findOne({username:r.username})){
-		Accounts.createUser({
-			username:r.username,
-			email:r.email,
-			password:r.password,
-		});
-	}else{
-		var us=Meteor.users.findOne({username:r.username});
-		console.log(r);
-		console.log(us._id);
-		Meteor.users.update({_id : us._id},{$set:{
-			username:r.username,
-			permission:r.permission,
-			email:r.email,
-			password:r.password,
-		}},function(e,r){
-			if(e){
-				console.log(e);
-			}else{
-				console.log(r);
-				console.log('teste')
+	Meteor.methods({
+		'sendConfirmation':function(user){
+			Accounts.emailTemplates.siteName = "Sistem Horario";
+			Accounts.emailTemplates.from     = "josielloureirodemoraes@gmail.com";
+
+			Accounts.emailTemplates.verifyEmail = {
+			  subject() {
+			    return "[Sistem Horario] Email de verificacao";
+			  },
+			  text( user, url ) {
+			    let emailAddress   = user.emails[0].address,
+			        urlWithoutHash = url.replace( '#/', '' ),
+			        supportEmail   = "support@godunk.com",
+			        emailBody      = `To verify your email address (${emailAddress}) visit the following link:\n\n${urlWithoutHash}\n\n If you did not request this verification, please ignore this email. If you feel something is wrong, please contact our support team: ${supportEmail}.`;
+
+			    return emailBody;
+			  }
+
 			}
-		})
-	}
+		}
+	})
 	
-
 }
-
-})
-

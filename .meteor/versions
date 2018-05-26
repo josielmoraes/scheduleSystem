@@ -64,6 +64,7 @@ minifier-js@2.3.5
 minimongo@1.4.4
 mizzao:autocomplete@0.5.1
 mizzao:timesync@0.5.0
+mizzao:user-status@0.6.7
 mobile-experience@1.0.5
 mobile-status-bar@1.0.14
 modules@0.11.7

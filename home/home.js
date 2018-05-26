@@ -13,9 +13,9 @@ if(Meteor.isClient){
 	import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
 	dataTablesBootstrap(window, $);
 	Template.menu.helpers({
-		'validateLogin':function(){
-			var user=Meteor.user()
-			if(user.user=="root@ufmt.br")
+		'c':function(p){
+			console.log(p);
+			if(p==0)
 				return true;
 			else
 				return false

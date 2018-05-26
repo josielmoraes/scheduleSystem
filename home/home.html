@@ -6,13 +6,23 @@
 <template name="menu">
 	<div id="menu">
 	<a class="linkMenu" href="{{pathFor route= 'Inicio'}}"> Início</a>
+	{{#if currentUser}}
+		{{#if c currentUser.profile.permission}}
+			<a class="linkMenu" href="{{pathFor route= 'Usuario'}}"> Usuário</a>
+		{{/if}}
+	{{/if}}
 	<a class="linkMenu" href="{{pathFor route= 'Materia'}}"> Matéria</a>
 	<a class="linkMenu" href="{{pathFor route= 'Professor'}}">Professor</a>
 	<a class="linkMenu" href="{{pathFor route= 'Curso'}}">Curso</a>
 	<a class="linkMenu" href="{{pathFor route= 'Semestre'}}">Semestre</a>
 	<a class="linkMenu" href="{{pathFor route= 'Area'}}">Area</a>
-	<a class="linkMenu" href="{{pathFor route= 'Processo'}}">Processo</a>
-	<a class="linkMenu" href="{{pathFor route= 'definirDisciplina'}}">Oferta Disciplina</a>
+	{{#if currentUser}}
+		{{#if c currentUser.profile.permission}}
+			<a class="linkMenu" href="{{pathFor route= 'Processo'}}">Processo</a>
+			<a class="linkMenu" href="{{pathFor route= 'definirDisciplina'}}">Oferta Disciplina</a>
+			<a class="linkMenu" href="{{pathFor route= 'alocarProfessor'}}">Alocar Professor</a>
+		{{/if}}
+	{{/if}}
 	</div>
 </template>
 

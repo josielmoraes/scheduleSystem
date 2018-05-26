@@ -1,31 +1,33 @@
 <template name="cadastroSemestre">
 	<p>{{>menu}}</p>
 	{{#if currentUser}}
-		<div class="cadastro">
-			<form id="formCadastroSemestre" name="formCadastroSemestre">
-				<p>Ano 
-				<select id="anoLetivo" name="anoLetivo">
-					<option value="2017">2017</option>
-					<option value="2018">2018</option>
-					<option value="2019">2019</option>
-				</select>
-				</p>
-				<p>Periodo 
-				<select id="periodoLetivo" name="periodoLetivo">
-					<option value="1">1</option>
-					<option value="2">2</option>
-				</select>
-				</p>
-				<p>Data de início <input type="date" id="dataInicio" name="dataInicio"></p>
-				<p>Data Final <input type="date" id="dataFinal" name="dataFinal"></p>
-				<p name="erro"></p>
-				<p>
-				<input class="input" type="submit" id="cadastrar" name="cadastrar" value="Cadastrar">
-				<input class="input" type="submit" id="deletar" name="deletar" value="Voltar">
-				</p>
-			</form>
-		</div>
+		{{#if permissao currentUser.profile.permission}}
+			<div class="cadastro">
+				<form id="formCadastroSemestre" name="formCadastroSemestre">
+					<p>Ano 
+					<select id="anoLetivo" name="anoLetivo">
+						<option value="2017">2017</option>
+						<option value="2018">2018</option>
+						<option value="2019">2019</option>
+					</select>
+					</p>
+					<p>Periodo 
+					<select id="periodoLetivo" name="periodoLetivo">
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+					</p>
+					<p>Data de início <input type="date" id="dataInicio" name="dataInicio"></p>
+					<p>Data Final <input type="date" id="dataFinal" name="dataFinal"></p>
+					<p name="erro"></p>
+					<p>
+					<input class="input" type="submit" id="cadastrar" name="cadastrar" value="Cadastrar">
+					<input class="input" type="submit" id="deletar" name="deletar" value="Voltar">
+					</p>
+				</form>
+			</div>
 		{{/if}}
+	{{/if}}
 	<div class="tabela">
 		{{> tabular table=TabularTables.Semestre }}
 	</div>

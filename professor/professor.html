@@ -2,23 +2,25 @@
 <template name="cadastroProfessor">
 	<p>{{>menu}}</p>
 	{{#if currentUser}}
-		<div class="cadastro">
-			<form id="formCadastroProfessor" name="formCadastroProfessor">
-				<p>Nome <input type="text" id="nomeProfessor" name="nomeProfessor" required></p>
-				<p>Lotação <input type="text" id="lotacaoProfessor" name="lotacaoProfessor" required></p>
-				<p>Formação <input type="text" id="formacaoProfessor" name="formacaoProfessor" required></p>
-				<p>Email <input type="email" id="emailProfessor" name="emailProfessor" required></p>
-				<p>Telefone <input type="text"  class="telefoneProfessorMask" id="telefoneProfessor" name="telefoneProfessor" required></p>
-				<p>
-					<label name="erro"></label>
-				</p>
-				<input type="submit" class="input" id="Cadastrar" name="Cadastrar" value="Cadastrar">
-				<input type="submit" class="input" id="Deletar" name="Deletar" value="Voltar">
-				<input type="submit" class="input" name="limpar" id="limpar" value="Limpar Campos">
-			</form>
-		</div>
+		{{#if permissao currentUser.profile.permission}}
+			<div class="cadastro">
+				<form id="formCadastroProfessor" name="formCadastroProfessor">
+					<p>Nome <input type="text" id="nomeProfessor" name="nomeProfessor" required></p>
+					<p>Lotação <input type="text" id="lotacaoProfessor" name="lotacaoProfessor" required></p>
+					<p>Formação <input type="text" id="formacaoProfessor" name="formacaoProfessor" required></p>
+					<p>Email <input type="email" id="emailProfessor" name="emailProfessor" required></p>
+					<p>Telefone <input type="text"  class="telefoneProfessorMask" id="telefoneProfessor" name="telefoneProfessor" required></p>
+					<p>
+						<label name="erro"></label>
+					</p>
+					<input type="submit" class="input" id="Cadastrar" name="Cadastrar" value="Cadastrar">
+					<input type="submit" class="input" id="Deletar" name="Deletar" value="Voltar">
+					<input type="submit" class="input" name="limpar" id="limpar" value="Limpar Campos">
+				</form>
+			</div>
+		{{/if}}
 	{{/if}}
 	<div class="tabela">
-		{{> tabular table=TabularTables.Professor }}
+		{{> tabular table=TabularTables.Professor}}
 	</div>
 </template>
