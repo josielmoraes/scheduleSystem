@@ -24,3 +24,7 @@ npm install --save datatables.net-buttons datatables.net-buttons-bs
  meteor remove autopublish
 
  meteor add tracker
+
+ meteor add twbs:bootstrap
+
+

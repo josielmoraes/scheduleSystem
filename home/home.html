@@ -1,10 +1,14 @@
+<body style="position: relative;">
+	{{home}}
+</body>
 <template name="home">
+	
 	{{>menu}}
 </template>
 
 
 <template name="menu">
-	<div id="menu">
+	<div class="container-fluid">
 	<a class="linkMenu" href="{{pathFor route= 'Inicio'}}"> Início</a>
 	{{#if currentUser}}
 		{{#if c currentUser.profile.permission}}

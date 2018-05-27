@@ -121,8 +121,6 @@ if(Meteor.isClient){
 			$('#nomeMateria').val("");
 			$('#cargaHorariaMateria').val("");
 			$('#aulaSemanal').val("");
-			$('#divisao').val(0);
-			Template.instance().variavelReac.set(false);
 			$('#Cadastrar').val("Cadastrar");
 		    $('#Deletar').val("Voltar");
 		    $('#formCadastroMateria').validate().resetForm();
@@ -223,7 +221,7 @@ if(Meteor.isClient){
 				}else if(evento=="Atualizar" && validar==true){
 					if(Template.cadastroMateria.__helpers.get('validarCodigoAtualizar').call()){
 						var id= Session.get('materia');
-						//Meteor.call('atualizarMateria',id._id,dadosMateria);
+						Meteor.call('atualizarMateria',id._id,dadosMateria);
 						Template.cadastroMateria.__helpers.get('campos').call();
 					}
 				}
@@ -232,7 +230,7 @@ if(Meteor.isClient){
 				console.log(evento);
 				if(evento=="Voltar"){
 					$('#formCadastroMateria').validate().resetForm();
-					campos();
+					Template.cadastroMateria.__helpers.get('campos').call();
 					Router.go('/');
 				}else if(evento=="Deletar"){
 					var id= Session.get('materia');
@@ -278,6 +276,7 @@ if(Meteor.isClient){
 	});
 	
 	Template.cadastroMateria.onRendered(function(){
+		console.log("redn")
 			$('#formCadastroMateria').validate({
 				rules:{
 					codMateria:{
