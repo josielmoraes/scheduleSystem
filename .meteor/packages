@@ -19,17 +19,21 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 accounts-base
-accounts-ui
 accounts-password
 iron:router
 aldeed:tabular
-themeteorchef:jquery-validation
 session
 mizzao:autocomplete
 dburles:collection-helpers
 sakulstra:aggregate
 mizzao:timesync
 promise
-autopublish
 mizzao:user-status
-twbs:bootstrap
+email
+useraccounts:iron-routing
+mizzao:bootboxjs
+anti:modals
+peppelg:bootstrap-3-modal
+mizzao:bootstrap-3
+autopublish
+themeteorchef:jquery-validation

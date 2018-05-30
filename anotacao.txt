@@ -1,30 +1,23 @@
 Anotações
 
-
+meteor add jquery
 meteor add accounts-ui accounts-password
 meteor add iron:router
 meteor npm install --save datatables.net-bs4
  meteor add aldeed:tabular
  meteor npm install --save bcrypt
- meteor add themeteorchef:jquery-validation
+ npm install --save jquery-validation
+	
  meteor add session
 meteor add mizzao:autocomplete
-meteor add dburles:collection-helpers retirar
 meteor add meteorhacks:aggregate
  teste de git 
-
 meteor add reactive-var
-
 meteor add dburles:collection-helpers
-
-
-
 npm install --save datatables.net-buttons datatables.net-buttons-bs
-
  meteor remove autopublish
-
  meteor add tracker
-
- meteor add twbs:bootstrap
-
-
+meteor add mizzao:bootstrap-3
+ meteor add useraccounts:iron-routing
+//meteor add useraccounts:core
+meteor add peppelg:bootstrap-3-modal

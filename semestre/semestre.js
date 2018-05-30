@@ -207,6 +207,12 @@ Meteor.methods({
 			periodoLetivo:dadoSemestre.periodoLetivo,
 			dataInicio:dadoSemestre.dataInicio,
 			dataFinal:dadoSemestre.dataFinal,})
+	},
+	semestre:function(){
+		return Semestre.find();
 	}
+})
+Meteor.publish('semestre',function(){
+	return Semestre.find();
 })
 }

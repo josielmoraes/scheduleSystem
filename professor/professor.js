@@ -58,7 +58,7 @@ function validarDeletar(id){
 	Template.cadastroProfessor.helpers({
 		campos(){
 			$('#nomeProfessor').val("");
-			$('#lotacaoProfessor').val("");
+			$('#siape').val("");
 			$('#formacaoProfessor').val("");
 			$('#emailProfessor').val("");
 			$('#telefoneProfessor').val("");
@@ -83,11 +83,12 @@ function validarDeletar(id){
 				var evento=  $('#Cadastrar').val();
 				var dadosProfessor={
 						nome:  $('#nomeProfessor').val(), 
-						lotacao:  $('#lotacaoProfessor').val(),
+						siape:  $('#siape').val(),
 						formacao:  $('#formacaoProfessor').val(),
 						email: $('#emailProfessor').val(),
 						telefone: $('#telefoneProfessor').val(),
 					}
+					console.log(dadosProfessor)
 				var validar=$( '#formCadastroProfessor' ).valid();
 				if(evento=="Cadastrar" && validar==true){
 					Meteor.call('cadastrarProfessor',dadosProfessor);
@@ -122,7 +123,7 @@ function validarDeletar(id){
 		    var prof=Professor.findOne({_id:rowData._id})// Meteor.call('procurarProfessor',rowData._id);
 		    console.log(prof);
 		    $('#nomeProfessor').val(prof.nome);
-		    $('#lotacaoProfessor').val(prof.lotacao);
+		    $('#siape').val(prof.siape);
 		    $('#formacaoProfessor').val(prof.formacao);
 		    $('#emailProfessor').val(prof.email);
 		    $('#telefoneProfessor').val(prof.telefone);
@@ -134,9 +135,6 @@ function validarDeletar(id){
 
   	});
 
-	Template.cadastroProfessor.onRendered(function(){
-		this.subscribe('professor');
-	})
 	Template.cadastroProfessor.onRendered(function(){	  
 	
 		$( '#formCadastroProfessor' ).validate({
@@ -145,7 +143,7 @@ function validarDeletar(id){
 			    			 minlength: 6,
 			    			 required:true
 			    		},
-			    		lotacaoProfessor:{
+			    		siape:{
 			    			minlength: 6,
 			    			 required:true
 			    		},
@@ -167,7 +165,7 @@ function validarDeletar(id){
 			    			minlength:"Precisa de no minimo 6 letras",
 			    			required:"Campo obrigatório"
 			    		},
-			    		lotacaoProfessor:{
+			    		siape:{
 			    			minlength:"Precisa de no minimo 6 letras",
 			    			required:"Campo obrigatório"
 			    		},
@@ -190,21 +188,23 @@ function validarDeletar(id){
 if(Meteor.isServer){
 	Meteor.methods({
 		'cadastrarProfessor':function(dadosProfessor){
+			console.log(dadosProfessor)
 			Professor.insert({
 				nome: dadosProfessor.nome,
-				lotacao: dadosProfessor.lotacao,
 				formacao: dadosProfessor.formacao,
 				email: dadosProfessor.email,
 				telefone: dadosProfessor.telefone,
+				siape: dadosProfessor.siape,
 			})
 		},
 		'atualizarProfessor':function(id,dadosProfessor){
-			Professor.update({_id:id},{
+			Professor.update({_id:id},{$set:{
 				nome: dadosProfessor.nome,
-				lotacao: dadosProfessor.lotacao,
+				siape: dadosProfessor.lotacao,
 				formacao: dadosProfessor.formacao,
 				email: dadosProfessor.email,
 				telefone: dadosProfessor.telefone,
+			}
 			})
 		},
 		'deletarProfessor':function(id){

@@ -2,7 +2,6 @@ import Materia from "../imports/collections/materia";
 import Tabular from 'meteor/aldeed:tabular';
 import { $ } from 'meteor/jquery';
 import dataTablesBootstrap from 'datatables.net-bs4';
-import SubMateria from '../imports/collections/submateria'
 import OfertaMateria from "../imports/collections/ofertaMateria";
 
 Router.route('/Materia',{
@@ -50,72 +49,7 @@ if(Meteor.isClient){
 	
 	
 
-	Template.cadastroMateria.helpers({
-		'habilitarSubMateria': function(){
-			var evento= $('#Cadastrar').val();
-			console.log("Habilitar sub materia");
-			var index=$('#divisao').val()
-				var array= new Array(index);
-				for(x=0;x<index;x++){
-					array[x]=x+1;
-					console.log("ind "+index+" ar "+array[x]);
-				}	
-			if(evento=="Cadastrar"){
-				return array;
-			}else if(evento=="Atualizar"){
-				
-				return array;
-			}
-
-		},
-		'condicional':function(){
-			return Template.instance().variavelReac.get();
-		},
-		'preencher':function(){
-			var rowData=Session.get('materia');
-			    var sub;
-				var carga;
-				var aula;
-				var result=SubMateria.find({codMateria:rowData.codMateria},{sort:{ordem:1}}).fetch();
-				//const result=Meteor.subscribe('subMateriaBuscaCodigo',rowData.codMateria);
-				console.log(result);
-			    for(x=0;x<result.length;x++){
-					sub='#subNome'+result[x].ordem;
-					carga='#cargaHoraria'+result[x].ordem;
-					aula='#aulasSemanal'+result[x].ordem;
-					console.log(sub+" "+carga+" "+aula);
-					console.log(result[x].subNome+" "+result[x].cargaHoraria+" "+result[x].aulasSemanal)
-					$(sub).val(result[x].subNome);
-					$(carga).val(result[x].cargaHoraria);
-					$(aula).val(result[x].aulasSemanal);
-				}
-			},
-		'setarSubmateriasCadastrar':function(){
-			var materias;
-			var mat=[];
-			var sub;
-			var carga;
-			var aula;
-			var cod=Session.get('codMateria');
-			var a=$('#divisao').val();
-			for(x=1;x<=a;x++){
-				sub='#subNome'+x;
-				carga='#cargaHoraria'+x;
-				aula='#aulasSemanal'+x;
-				console.log(sub+" "+carga+" "+aula);
-				mat[x-1]={
-					codMateria:cod,
-					subNome:$(sub).val(),
-					cargaHoraria:$(carga).val(),
-					aulasSemanal:$(aula).val(),
-					ordem:x
-				}
-			}
-			for(x=0;x<mat.length;x++){
-				console.log(mat[x]);
-				Meteor.call('cadastrarSubMateria',mat[x]);
-			}
-		},
+	Template.cadastroMateria.helpers({	
 		'campos':function (){
 			$('#codMateria').val("");
 			$('#nomeMateria').val("");
@@ -146,7 +80,7 @@ if(Meteor.isClient){
 			$('#formCadastroMateria').validate().showErrors({
 					erro:v
 			})
-			return (sair && sair2)
+			return (sair )
 		},
 		validarCodigoAtualizar:function(){
 			var c;
@@ -177,6 +111,7 @@ if(Meteor.isClient){
 		validarCodigoCadastro:function(){
 			var cod=$('#codMateria').val();
 			console.log(cod);
+			//var a=Meteor.subscribe('MateriaBuscaCodigo',cod)
 			var a=Materia.find({codMateria:cod}).fetch();
 				if(a.length>0){
 					$('#formCadastroMateria').validate().showErrors({
@@ -257,8 +192,6 @@ if(Meteor.isClient){
 		    $('#Deletar').val("Deletar")
 		    Session.set('materia',rowData)
 			//Template.instance().variavelReac.set(true);
-			
-
 		  },
 
 		  'change #divisao':function(event){
@@ -294,54 +227,6 @@ if(Meteor.isClient){
 						required: true,
 						number:true
 					},
-
-					subNome1:{
-							required: true,
-						},
-					cargaHoraria1:{
-						required: true,
-						number:true
-					},
-					aulasSemanal1:{
-						required: true,
-						number:true
-					},
-
-					subNome2:{
-							required: true,
-					},
-					aulasSemanal2:{
-						required: true,
-						number:true
-					},
-					cargaHoraria2:{
-						required: true,
-						number:true
-					},
-
-					subNome3:{
-							required: true,
-					},
-					cargaHoraria3:{
-						required: true,
-						number:true
-					},
-					aulasSemanal3:{
-						required: true,
-						number:true
-					},
-
-					subNome4:{
-							required: true,
-					},
-					cargaHoraria4:{
-						required: true,
-						number:true
-					},
-					aulasSemanal4:{
-						required: true,
-						number:true
-					},
 				},
 				messages:{
 					codMateria:{
@@ -357,54 +242,6 @@ if(Meteor.isClient){
 					aulaSemanal:{
 						required: "Campo obrigatório",
 						number: "Somente números"
-					},
-
-					subNome1:{
-							required: "Campo obrigatório",
-						},
-					cargaHoraria1:{
-						required: "Campo obrigatório",
-						number:"Somente números"
-					},
-					aulasSemanal1:{
-						required: "Campo obrigatório",
-						number:"Somente números"
-					},
-
-					subNome2:{
-						required: "Campo obrigatório",
-					},
-					aulasSemanal2:{
-						required:"Campo obrigatório",
-						number:"Somente números"
-					},
-					cargaHoraria2:{
-						required: "Campo obrigatório",
-						number:"Somente números"
-					},
-
-					subNome3:{
-						required: "Campo obrigatório",
-					},
-					cargaHoraria3:{
-						required: "Campo obrigatório",
-						number:"Somente números"
-					},
-					aulasSemanal3:{
-						required:"Campo obrigatório",
-						number:"Somente números"
-					},
-
-					subNome4:{
-						required: "Campo obrigatório",
-					},
-					cargaHoraria4:{
-						required:"Campo obrigatório",
-						number:"Somente números"
-					},
-					aulasSemanal4:{
-						required:"Campo obrigatório",
-						number:"Somente números"
 					},
 				}
 			});
@@ -449,24 +286,15 @@ if(Meteor.isServer){
 		'deletarMateria': function(id){
 			Materia.remove({_id:id});
 		},
-		'cadastrarSubMateria':function(dados){
-			SubMateria.insert({
-				codMateria:dados.codMateria,
-				subNome:dados.subNome,
-				cargaHoraria:dados.cargaHoraria,
-				aulasSemanal:dados.aulasSemanal,
-				ordem:dados.ordem
-			})
-		},
-		'buscarSubMateria':function(cod){
-			return SubMateria.find({codMateria:cod},{sort:{ordem:1}});
-		}
+		
 	});
-	Meteor.publish('subMateriaBuscaCodigo',function(cod){
-		var t=SubMateria.find({codMateria:cod},{sort:{ordem:1}});;
-		console.log(t);
-		return t;
-	})
+	Meteor.publish(
+		'MateriaBuscaCodigo',function (cod){
+			var t=Materia.find({codMateria:cod},{sort:{ordem:1}});;
+			console.log(t);
+			return t;
+		}
+	)
 	
 
 }
